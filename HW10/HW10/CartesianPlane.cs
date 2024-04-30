@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,11 @@ namespace HW10
     {
 
         public List<GeometricObjects> objects = new List<GeometricObjects>();
-        
+
+
+
+
+       
         /// <summary>
         /// Метод печати всех геометрических объектов плоскости
         /// </summary>
@@ -63,11 +68,13 @@ namespace HW10
             }
 
             /// <summary>
-            /// Класс объекта прямоугольник, определяемый 4 мя точками декартовой плоскости
+            /// Класс объекта прямоугольник, определяемый 4 мя точками декартовой плоскости(точки считать занумерованными по часовой стрелке)
             /// </summary>
             public class Rectangle : GeometricObjects // класс объекта прямоугольник, определяемый 4 мя точками декартовой плоскости
             {
                 public Point[] points = new Point[4];
+               
+                public Point Center { get; }
                 /// <summary>
                 /// Конструктор класса Rectangle, принимает на вход массив из 4 объектов класса Point
                 /// </summary>
@@ -81,6 +88,7 @@ namespace HW10
                         {
                             points[i] = new Point(points_[i].x, points_[i].y);
                         }
+                        Center = new Point( (points[2].x + points[0].x)/2, (points[2].y -points[0].y)/2);
                     }
                     else
                     {
@@ -103,6 +111,22 @@ namespace HW10
 
                 }
 
+
+
+                /// <summary>
+                /// Площадь прямоугольника
+                /// </summary>
+                /// <returns>
+                /// Площадь(double)
+                /// </returns>
+                public double Square()
+                {
+                    double side1 = Math.Sqrt(Math.Pow(points[1].x - points[0].x, 2) + Math.Pow(points[1].y - points[0].y, 2));
+                    double side2 = Math.Sqrt(Math.Pow(points[2].x - points[1].x, 2) + Math.Pow(points[2].y - points[1].y, 2));
+                    double side3 = Math.Sqrt(Math.Pow(points[3].x - points[2].x, 2) + Math.Pow(points[3].y - points[2].y, 2));
+                    double side4 = Math.Sqrt(Math.Pow(points[3].x - points[0].x, 2) + Math.Pow(points[3].y - points[0].y, 2));
+                    return (Math.Max(side1, Math.Max(side2, Math.Max(side3, side4)))* Math.Min(side1, Math.Min(side2, Math.Min(side3, side4))));
+                }
 
 
                 private bool IsRectangle(Point[] arr) // проверка является ли заданный четырехугольник прямоугольником
@@ -132,10 +156,22 @@ namespace HW10
 
 
             }
+            /// <summary>
+            /// Функция подсчета расстояния между точками
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            public double Distance(Point a, Point b)
+            {
+                return Math.Sqrt(Math.Pow(a.x-b.x, 2)+Math.Pow(a.y-b.y, 2));    
 
+            }
+
+           
 
         }
 
-
+       
     }
 }
